@@ -1,4 +1,3 @@
-@@ -0,0 +1,113 @@
 # Building Logstash
 [Logstash](https://www.elastic.co/products/logstash) is written in Ruby and it has a build-in Jruby (running on JVM) that needs a native library jffi-1.2.so for s390x platform.
 This recipe is for building Logstash (2.1.0) for Linux on z Systems 
