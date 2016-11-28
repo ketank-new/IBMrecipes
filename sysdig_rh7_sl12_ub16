@@ -41,7 +41,7 @@ _**General Notes:**_
 	a. Change file `/<source_root>/sysdig-0.12.1/build/driver/Makefile.dkms`
 	   at line no `5` to update the Kernel directory.
 		
-		KERNELDIR  ?= /lib/modules/<kernel_directory>/build
+		KERNELDIR  ?= /lib/modules/<kernel_directory/build
 		
 		
 	Note : kernel_directory is the one available in `/lib/modules/`
