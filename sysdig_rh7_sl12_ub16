@@ -1,6 +1,6 @@
 # Building sysdig
 
-The instructions provided below specify the steps to build [sysdig](http://www.sysdig.org) version 0.11.0 on IBM z Systems for RHEL 7.1/7.2, SLES 12-SP1 and Ubuntu 16.04/16.10.
+The instructions provided below specify the steps to build [sysdig](http://www.sysdig.org) version 0.12.1 on IBM z Systems for RHEL 7.1/7.2/7.3, SLES 12-SP1/12-SP2 and Ubuntu 16.04/16.10.
 
 
 _**General Notes:**_ 	 
@@ -11,11 +11,11 @@ _**General Notes:**_
 ## Step 1 : Downloading, Building and Installing
 1. Install dependencies
 
-    RHEL 7.1/7.2
+    RHEL 7.1/7.2/7.3
 	
 			yum install wget tar gcc cmake gcc-c++ make lua-devel.s390x kernel-devel
 		
-    SLES 12-SP1
+    SLES 12-SP1/12-SP2
 		
 			zypper install wget tar gcc cmake make gcc-c++ lua51 lua51-devel kernel-default-devel
 		 
@@ -36,12 +36,13 @@ _**General Notes:**_
         cd  /<source_root>/sysdig-0.12.1/build
         cmake -DUSE_BUNDLED_LUAJIT=OFF ..
 		
-4.	File changes to be done before Build
+4.	File changes to be done before build
 		
 	a. Change file `/<source_root>/sysdig-0.12.1/build/driver/Makefile.dkms`
 	   at line no `5` to update the Kernel directory.
 		
-		KERNELDIR  ?= /lib/modules/<kernel_directory/build
+		-		KERNELDIR  ?= /lib/modules/$(shell uname -r)/build
+		+		KERNELDIR  ?= /lib/modules/3.10.0-327.18.2.el7.s390x/build
 		
 		
 	Note : kernel_directory is the one available in `/lib/modules/`
@@ -49,11 +50,11 @@ _**General Notes:**_
 			dirname name should match with one which is present in `/usr/src` or `/usr/src/kernels` (RHEL7.1/7.2).
 			Once kernel directory is created in `/lib/modules/` perform the below softlink
 			
-	RHEL 7.1/7.2
+	RHEL 7.1/7.2/7.3
 			
 		ln -s /usr/src/kernels/<kernel_directory> /lib/modules/<kernel_directory>/build
 				
-	SLES 12-SP2 & Ubuntu 16.04/16.10
+	SLES 12-SP2/12-SP2 & Ubuntu 16.04/16.10
 			
 		ln -s /usr/src/<kernel_directory> /lib/modules/<kernel_directory>/build
 			   
@@ -64,14 +65,11 @@ _**General Notes:**_
 		make
 		make install
 		
-6. Using sysdig
+6. Insert sysdig driver module
 
-	a. Insert the sysdig driver modules
 	
-		cd  /<source_root>/sysdig-0.12.1/build/driver/
-		insmod sysdig-probe.ko
-		
-	b. Try out sysdig examples from [here](https://github.com/draios/sysdig/wiki/Sysdig-Examples)
+	cd  /<source_root>/sysdig-0.12.1/build/driver/
+	insmod sysdig-probe.ko
 
 	
 ## Reference:
